@@ -1,15 +1,29 @@
-
 // client-side js
 // run by the browser each time your view template is loaded
-
-console.log('hello world :o');
-
 
 // define variables that reference elements on our page
 const santaForm = document.forms[0];
 
+
+
 // listen for the form to be submitted and add a new dream when it is
 santaForm.onsubmit = function (event) {
-  // TODO: check the text isn't more than 100chars before submitting
-  // event.preventDefault();
+  event.preventDefault();
+
+  const username = document.getElementsByName('userid')[0].value
+  const message = document.getElementsByName('wish')[0].value;
+  httpRequest = new XMLHttpRequest();
+
+  const alertContents = () =>  {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      alert(JSON.parse(httpRequest.responseText).message);
+    }
+  }
+  httpRequest.onreadystatechange = alertContents;
+  httpRequest.open('POST', 'http://localhost:3000/api/christmas-letters', true);
+  httpRequest.setRequestHeader('Content-Type', 'application/json');
+  httpRequest.send(JSON.stringify({
+    username,
+    message,
+  }));
 };
