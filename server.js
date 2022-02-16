@@ -6,9 +6,21 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const bodyParser = require('body-parser');
+const router = express.Router();
 
-app.use(bodyParser());
-app.use(morgan());
+app.use(bodyParser.json());
+app.use(morgan('combined'));
+
+// Define cron
+const emailNotificationJob = require('./jobs/emailNotification');
+emailNotificationJob.start();
+
+// Define all routers
+require('./api/routes/christmasLetter')(router);
+app.use('/api', router);
+
+// in memory storage
+global.pendingEmail = [];
 
 // we've started you off with Express,
 // but feel free to use whatever libs or frameworks you'd like through `package.json`.
