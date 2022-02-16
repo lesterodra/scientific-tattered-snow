@@ -4,8 +4,6 @@
 // define variables that reference elements on our page
 const santaForm = document.forms[0];
 
-
-
 // listen for the form to be submitted and add a new dream when it is
 santaForm.onsubmit = function (event) {
   event.preventDefault();
@@ -20,7 +18,7 @@ santaForm.onsubmit = function (event) {
     }
   }
   httpRequest.onreadystatechange = alertContents;
-  httpRequest.open('POST', 'http://localhost:3000/api/christmas-letters', true);
+  httpRequest.open('POST', `${window.location.origin}/api/christmas-letters`, true);
   httpRequest.setRequestHeader('Content-Type', 'application/json');
   httpRequest.send(JSON.stringify({
     username,
