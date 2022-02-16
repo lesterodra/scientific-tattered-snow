@@ -7,7 +7,7 @@
   "description": "A simple Node app built on Express, instantly up and running.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon -r dotenv/config server.js",
+    "start": "node -r dotenv/config server.js",
     "test": "jest"
   },
   "dependencies": {
