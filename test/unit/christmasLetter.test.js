@@ -38,58 +38,66 @@ beforeAll(() => {
     global.pendingEmail = [];
 });
 
-it('it should not create christmas letter: no username', () => {
-    return create(request({
-        body: {}
-    }), response(), next()).then(data => {
-        expect(data).toStrictEqual({
-            message: 'must have required property \'username\'',
-        });
-    });
-});
+describe('ChristmasLetterTest', () => {
+    describe('Test create function', () => {
+        describe('Test All Validation Error', () => {
+            it('it should not create christmas letter: no username', () => {
+                return create(request({
+                    body: {}
+                }), response(), next()).then(data => {
+                    expect(data).toStrictEqual({
+                        message: 'must have required property \'username\'',
+                    });
+                });
+            });
 
-it('it should not create christmas letter: no message', () => {
-    return create(request({
-        body: {
-            username: 'james.bond',
-        }
-    }), response(), next()).then(data => {
-        expect(data).toStrictEqual({
-            message: 'must have required property \'message\'',
-        });
-    });
-});
+            it('it should not create christmas letter: no message', () => {
+                return create(request({
+                    body: {
+                        username: 'james.bond',
+                    }
+                }), response(), next()).then(data => {
+                    expect(data).toStrictEqual({
+                        message: 'must have required property \'message\'',
+                    });
+                });
+            });
 
-it('it should not create christmas letter: invalid username', () => {
-    axios.get.mockReturnValueOnce({
-        data: users,
-    });
-    return create(request({
-        body: {
-            username: 'someone',
-            message: 'test',
-        }
-    }), response(), next()).then(data => {
-        expect(data).toStrictEqual({
-            message: 'user not found',
+            it('it should not create christmas letter: invalid username', () => {
+                axios.get.mockReturnValueOnce({
+                    data: users,
+                });
+                return create(request({
+                    body: {
+                        username: 'someone',
+                        message: 'test',
+                    }
+                }), response(), next()).then(data => {
+                    expect(data).toStrictEqual({
+                        message: 'user not found',
+                    });
+                });
+            });
         });
-    });
-});
 
-it('it should create christmas letter', () => {
-    axios.get.mockReturnValueOnce({
-        data: users,
-    }).mockReturnValueOnce({
-        data: userProfiles,
-    });
-    return create(request({
-        body: {
-            username: 'charlie.brown',
-            message: 'test',
-        }
-    }), response(), next()).then(data => {
-        expect(data).toStrictEqual({
-            message: 'successful',
+        describe('Test All Success', () => {
+            it('it should create christmas letter', () => {
+                axios.get.mockReturnValueOnce({
+                    data: users,
+                }).mockReturnValueOnce({
+                    data: userProfiles,
+                });
+                return create(request({
+                    body: {
+                        username: 'charlie.brown',
+                        message: 'test',
+                    }
+                }), response(), next()).then(data => {
+                    expect(data).toStrictEqual({
+                        message: 'successful',
+                    });
+                });
+            });
         });
     });
 });
