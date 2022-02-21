@@ -1,0 +1,1 @@
+module.exports = (statusCode, message) => { throw { statusCode, message } };
